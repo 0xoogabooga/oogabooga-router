@@ -4,6 +4,7 @@ pragma solidity ^0.8.27;
 import {Test} from "forge-std/Test.sol";
 
 import {OBRouter} from "contracts/OBRouter.sol";
+import {IOBRouter} from "contracts/interfaces/IOBRouter.sol";
 import {OnlyApproved} from "contracts/OnlyApproved.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {TokenHelper} from "contracts/TokenHelper.sol";
@@ -41,7 +42,7 @@ contract OBRouterTransferRouterFundsTest is Test, TestHelpers {
 
         // Act
         vm.prank(authorized);
-        vm.expectRevert(OBRouter.InvalidRouterFundsTransfer.selector);
+        vm.expectRevert(IOBRouter.InvalidRouterFundsTransfer.selector);
         router.transferRouterFunds(tokens, amounts, recipient);
     }
 

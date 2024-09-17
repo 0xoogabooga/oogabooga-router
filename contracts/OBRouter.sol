@@ -25,17 +25,6 @@ contract OBRouter is Ownable, Pausable, IOBRouter, OnlyApproved {
     uint256 public constant FEE_DENOM = 1e18;
     address public immutable WETH;
 
-    error NativeDepositValueMismatch(uint256 expected, uint256 received);
-    error MinimumOutputGreaterThanQuote(uint256 outputMin, uint256 outputQuote);
-    error MinimumOutputIsZero();
-    error SameTokenInAndOut(address token);
-    error SlippageExceeded(uint256 amountOut, uint256 outputMin);
-    error ReferralCodeInUse(uint32 referralCode);
-    error FeeTooHigh(uint64 fee);
-    error InvalidFeeForCode(uint64 fee);
-    error NullBeneficiary();
-    error InvalidRouterFundsTransfer();
-
     /// @dev Register referral fee and information
     mapping(uint32 => referralInfo) public referralLookup;
 

@@ -91,7 +91,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         // Act
         vm.startPrank(sender);
         vm.expectRevert(
-            abi.encodeWithSelector(OBRouter.NativeDepositValueMismatch.selector, tokenInfo.inputAmount, sendAmount)
+            abi.encodeWithSelector(IOBRouter.NativeDepositValueMismatch.selector, tokenInfo.inputAmount, sendAmount)
         );
         router.swap{value: sendAmount}(tokenInfo, "", address(mockExecutor), 0);
 
@@ -116,7 +116,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         vm.startPrank(sender);
         vm.expectRevert(
             abi.encodeWithSelector(
-                OBRouter.MinimumOutputGreaterThanQuote.selector, tokenInfo.outputMin, tokenInfo.outputQuote
+                IOBRouter.MinimumOutputGreaterThanQuote.selector, tokenInfo.outputMin, tokenInfo.outputQuote
             )
         );
         router.swap{value: tokenInfo.inputAmount}(tokenInfo, "", address(mockExecutor), 0);
@@ -142,7 +142,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         vm.startPrank(sender);
         weth.approve(address(router), tokenInfo.inputAmount);
 
-        vm.expectRevert(abi.encodeWithSelector(OBRouter.SameTokenInAndOut.selector, tokenInfo.inputToken));
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.SameTokenInAndOut.selector, tokenInfo.inputToken));
         router.swap(tokenInfo, "", address(mockExecutor), 0);
 
         // Assert
@@ -166,7 +166,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         vm.startPrank(sender);
         weth.approve(address(router), tokenInfo.inputAmount);
 
-        vm.expectRevert(OBRouter.MinimumOutputIsZero.selector);
+        vm.expectRevert(IOBRouter.MinimumOutputIsZero.selector);
         router.swap(tokenInfo, "", address(mockExecutor), 0);
 
         // Assert
@@ -190,7 +190,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         // Act
         vm.prank(sender);
         vm.expectRevert(
-            abi.encodeWithSelector(OBRouter.SlippageExceeded.selector, actualAmountDeposited, tokenInfo.outputMin)
+            abi.encodeWithSelector(IOBRouter.SlippageExceeded.selector, actualAmountDeposited, tokenInfo.outputMin)
         );
         router.swap{value: tokenInfo.inputAmount}(
             tokenInfo, abi.encode(DEPOSIT, actualAmountDeposited), address(mockExecutor), 0

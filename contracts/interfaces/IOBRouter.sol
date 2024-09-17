@@ -20,7 +20,7 @@ interface IOBRouter {
         address outputReceiver;
     }
 
-    // @dev event for swapping one token for another
+    /// @dev event for swapping one token for another
     event Swap(
         address indexed sender,
         uint256 inputAmount,
@@ -38,6 +38,28 @@ interface IOBRouter {
         address beneficiary;
         bool registered;
     }
+
+    /// @dev throws when msg.value is not equal to swapTokenInfo.inputAmount
+    error NativeDepositValueMismatch(uint256 expected, uint256 received);
+    /// @dev throws when outputMin is greater than outputQuote in swap parameters
+    error MinimumOutputGreaterThanQuote(uint256 outputMin, uint256 outputQuote);
+    /// @dev throws when outputMin is zero
+    error MinimumOutputIsZero();
+    /// @dev throws when inputToken is equal to outputToken
+    error SameTokenInAndOut(address token);
+    /// @dev throws when outputAmount is less than outputMin
+    error SlippageExceeded(uint256 amountOut, uint256 outputMin);
+    /// @dev throws when trying to register an already registered referral code
+    error ReferralCodeInUse(uint32 referralCode);
+    /// @dev throws when fees set to referral code is too high
+    error FeeTooHigh(uint64 fee);
+    /// @dev throws when fee set is not accepted in the referralCode range
+    error InvalidFeeForCode(uint64 fee);
+    /// @dev throws when beneficiary is null when fee is set
+    error NullBeneficiary();
+    /// @dev throws when paramters for transferRouterFunds are invalid
+    error InvalidRouterFundsTransfer();
+
     /// @notice Externally facing interface for swapping two tokens
     /// @param tokenInfo All information about the tokens being swapped
     /// @param pathDefinition Encoded path definition for executor

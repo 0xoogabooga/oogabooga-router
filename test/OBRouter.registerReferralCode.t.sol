@@ -4,6 +4,7 @@ pragma solidity ^0.8.27;
 import {Test} from "forge-std/Test.sol";
 
 import {OBRouter} from "contracts/OBRouter.sol";
+import {IOBRouter} from "contracts/interfaces/IOBRouter.sol";
 import {OnlyApproved} from "contracts/OnlyApproved.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -34,7 +35,7 @@ contract OBRouterRegisterReferralCodeTest is Test, TestHelpers {
         router.registerReferralCode(referralCode, referralFee, beneficiary);
 
         // Act/Assert
-        vm.expectRevert(abi.encodeWithSelector(OBRouter.ReferralCodeInUse.selector, referralCode));
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.ReferralCodeInUse.selector, referralCode));
         router.registerReferralCode(referralCode, referralFee, beneficiary);
     }
 
@@ -46,7 +47,7 @@ contract OBRouterRegisterReferralCodeTest is Test, TestHelpers {
 
         // Act/Assert
         vm.prank(owner);
-        vm.expectRevert(abi.encodeWithSelector(OBRouter.FeeTooHigh.selector, referralFee));
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.FeeTooHigh.selector, referralFee));
         router.registerReferralCode(referralCode, referralFee, beneficiary);
     }
 
@@ -58,7 +59,7 @@ contract OBRouterRegisterReferralCodeTest is Test, TestHelpers {
 
         // Act/Assert
         vm.prank(owner);
-        vm.expectRevert(abi.encodeWithSelector(OBRouter.InvalidFeeForCode.selector, referralFee));
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.InvalidFeeForCode.selector, referralFee));
         router.registerReferralCode(referralCode, referralFee, beneficiary);
     }
 
@@ -70,7 +71,7 @@ contract OBRouterRegisterReferralCodeTest is Test, TestHelpers {
 
         // Act/Assert
         vm.prank(owner);
-        vm.expectRevert(abi.encodeWithSelector(OBRouter.InvalidFeeForCode.selector, referralFee));
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.InvalidFeeForCode.selector, referralFee));
         router.registerReferralCode(referralCode, referralFee, beneficiary);
     }
 
@@ -82,7 +83,7 @@ contract OBRouterRegisterReferralCodeTest is Test, TestHelpers {
 
         // Act/Assert
         vm.prank(owner);
-        vm.expectRevert(abi.encodeWithSelector(OBRouter.NullBeneficiary.selector));
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.NullBeneficiary.selector));
         router.registerReferralCode(referralCode, referralFee, beneficiary);
     }
 
