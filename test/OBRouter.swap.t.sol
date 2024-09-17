@@ -460,9 +460,56 @@ contract OBRouterSwapTest is Test, TestHelpers {
         );
     }
 
-    function test_RevertInsuficientBalance() external TODO {}
+    function test_RevertInsuficientBalance() external {
+        IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
+            inputToken: TokenHelper.NATIVE_TOKEN,
+            inputAmount: 1 ether,
+            outputToken: address(weth),
+            outputQuote: 1 ether,
+            outputMin: 1 ether,
+            outputReceiver: sender
+        });
+        uint256 balance = 0.9 ether;
 
-    function test_RevertInsuficientApproval() external TODO {}
+        // Arrange
+        universalDeal(address(tokenInfo.inputToken), sender, balance);
+
+        // Act
+        vm.prank(sender);
+        vm.expectRevert();
+        router.swap{value: tokenInfo.inputAmount}(
+            tokenInfo, abi.encode(DEPOSIT, tokenInfo.inputAmount), address(mockExecutor), 0
+        );
+
+        // Assert
+        tokenInfo.inputAmount = balance;
+        verifySenderAndRecipientBalance(tokenInfo, sender, false);
+    }
+
+    function test_RevertInsuficientERC20Approval() external {
+        IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
+            inputToken: address(weth),
+            inputAmount: 1 ether,
+            outputToken: TokenHelper.NATIVE_TOKEN,
+            outputQuote: 1 ether,
+            outputMin: 1 ether,
+            outputReceiver: sender
+        });
+        uint256 approveAmount = 0.9 ether;
+
+        // Arrange
+        universalDeal(address(tokenInfo.inputToken), sender, tokenInfo.inputAmount);
+        // Approved amount is less than inputAmount
+        weth.approve(address(router), approveAmount);
+
+        // Act
+        vm.prank(sender);
+        vm.expectRevert();
+        router.swap(tokenInfo, abi.encode(DEPOSIT, tokenInfo.inputAmount), address(mockExecutor), 0);
+
+        // Assert
+        verifySenderAndRecipientBalance(tokenInfo, sender, false);
+    }
 
     function test_SwapPermit2() external {
         // Arrange
