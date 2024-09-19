@@ -52,7 +52,7 @@ contract OBRouterAuthorizationTest is Test, TestHelpers {
         // Act
         vm.prank(attacker);
         vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, attacker));
-        router.unpaused();
+        router.unpause();
 
         // Assert
         assertTrue(router.paused());
@@ -65,7 +65,7 @@ contract OBRouterAuthorizationTest is Test, TestHelpers {
 
         // Act
         vm.prank(owner);
-        router.unpaused();
+        router.unpause();
 
         // Assert
         assertFalse(router.paused());
