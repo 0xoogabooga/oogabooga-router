@@ -9,6 +9,7 @@ import {OBRouter} from "contracts/OBRouter.sol";
 import {IOBRouter} from "contracts/interfaces/IOBRouter.sol";
 import {TokenHelper} from "contracts/TokenHelper.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
+import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 import {TestHelpers} from "test/utils/TestHelpers.sol";
 import {ISignatureTransfer} from "test/mock/Permit2/interfaces/ISignatureTransfer.sol";
@@ -36,6 +37,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
 
     function verifySenderAndRecipientBalance(IOBRouter.swapTokenInfo memory tokenInfo, address from, bool isSuccess)
         private
+        view
     {
         if (isSuccess) {
             assertGe(
@@ -603,5 +605,56 @@ contract OBRouterSwapTest is Test, TestHelpers {
 
         // Assert
         verifySenderAndRecipientBalance(tokenInfo, senderWallet.addr, false);
+    }
+
+    function test_RevertOutputQuoteCastOverflowFromUint256ToInt256() external {
+        uint256 unsafeOutputQuote = uint256(type(int256).max) + 1;
+        IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
+            inputToken: TokenHelper.NATIVE_TOKEN,
+            inputAmount: 1 ether,
+            outputToken: address(weth),
+            outputQuote: unsafeOutputQuote,
+            outputMin: 1 ether,
+            outputReceiver: sender
+        });
+
+        // Arrange
+        universalDeal(address(tokenInfo.inputToken), sender, tokenInfo.inputAmount);
+
+        // Act
+        vm.prank(sender);
+        vm.expectRevert(abi.encodeWithSelector(SafeCast.SafeCastOverflowedUintToInt.selector, unsafeOutputQuote));
+        router.swap{value: tokenInfo.inputAmount}(
+            tokenInfo, abi.encode(DEPOSIT, tokenInfo.inputAmount), address(mockExecutor), 0
+        );
+
+        // Assert
+        verifySenderAndRecipientBalance(tokenInfo, sender, false);
+    }
+
+    function test_RevertOutputAmountCastOverflowFromUint256ToInt256() external {
+        // Since using weth wrapping, the inputAmount is converted to outputAmount
+        uint256 unsafeInput = uint256(type(int256).max) + 1;
+        IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
+            inputToken: TokenHelper.NATIVE_TOKEN,
+            inputAmount: unsafeInput,
+            outputToken: address(weth),
+            outputQuote: 1 ether,
+            outputMin: 1 ether,
+            outputReceiver: sender
+        });
+
+        // Arrange
+        universalDeal(address(tokenInfo.inputToken), sender, tokenInfo.inputAmount);
+
+        // Act
+        vm.prank(sender);
+        vm.expectRevert(abi.encodeWithSelector(SafeCast.SafeCastOverflowedUintToInt.selector, unsafeInput));
+        router.swap{value: tokenInfo.inputAmount}(
+            tokenInfo, abi.encode(DEPOSIT, tokenInfo.inputAmount), address(mockExecutor), 0
+        );
+
+        // Assert
+        verifySenderAndRecipientBalance(tokenInfo, sender, false);
     }
 }

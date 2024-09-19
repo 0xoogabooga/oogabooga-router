@@ -13,12 +13,14 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
+import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 /// @title Routing contract for Ooga Booga SOR
 /// @notice Wrapper with security gaurantees around execution of arbitrary operations on user tokens
 contract OBRouter is Ownable, Pausable, IOBRouter, OnlyApproved {
     using SafeERC20 for IERC20;
     using TokenHelper for address;
+    using SafeCast for uint256;
 
     // @dev constants for managing referrals and fees
     uint256 public constant REFERRAL_WITH_FEE_THRESHOLD = 1 << 31;
@@ -157,7 +159,7 @@ contract OBRouter is Ownable, Pausable, IOBRouter, OnlyApproved {
             // Takes the fees and keeps them in this contract
             amountOut = amountOut * (FEE_DENOM - thisReferralInfo.referralFee) / FEE_DENOM;
         }
-        int256 slippage = int256(amountOut) - int256(tokenInfo.outputQuote);
+        int256 slippage = amountOut.toInt256() - tokenInfo.outputQuote.toInt256();
         if (slippage > 0) {
             amountOut = tokenInfo.outputQuote;
         }
