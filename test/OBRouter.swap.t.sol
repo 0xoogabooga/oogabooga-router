@@ -214,7 +214,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         universalDeal(address(tokenInfo.inputToken), sender, tokenInfo.inputAmount);
         universalDeal(address(tokenInfo.outputToken), address(weth), tokenInfo.inputAmount);
         // Amount necessary to deposit upon swap
-        universalDeal(TOkenHelper.NATIVE_TOKEN, sender, tokenInfo.inputAmount);
+        universalDeal(TokenHelper.NATIVE_TOKEN, sender, tokenInfo.inputAmount);
 
         // Act
         vm.startPrank(sender);
