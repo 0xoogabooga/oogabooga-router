@@ -200,6 +200,34 @@ contract OBRouterSwapTest is Test, TestHelpers {
         verifySenderAndRecipientBalance(tokenInfo, sender, false);
     }
 
+    function test_RevertInvalidNativeValueDepositOnERC20Swap() external {
+        IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
+            inputToken: address(weth),
+            inputAmount: 1 ether,
+            outputToken: TokenHelper.NATIVE_TOKEN,
+            outputQuote: 1 ether,
+            outputMin: 1 ether,
+            outputReceiver: sender
+        });
+
+        // Arrange
+        universalDeal(address(tokenInfo.inputToken), sender, tokenInfo.inputAmount);
+        universalDeal(address(tokenInfo.outputToken), address(weth), tokenInfo.inputAmount);
+        // Amount necessary to deposit upon swap
+        universalDeal(TOkenHelper.NATIVE_TOKEN, sender, tokenInfo.inputAmount);
+
+        // Act
+        vm.startPrank(sender);
+        weth.approve(address(router), tokenInfo.inputAmount);
+        vm.expectRevert(abi.encodeWithSelector(IOBRouter.InvalidNativeValueDepositOnERC20Swap.selector));
+        router.swap{value: tokenInfo.inputAmount}(
+            tokenInfo, abi.encode(WITHDRAW, tokenInfo.inputAmount), address(mockExecutor), 0
+        );
+
+        // Assert
+        verifySenderAndRecipientBalance(tokenInfo, sender, true);
+    }
+
     function test_RevertWhenPaused() external {
         IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
             inputToken: TokenHelper.NATIVE_TOKEN,

@@ -85,6 +85,7 @@ contract OBRouter is Ownable, Pausable, IOBRouter, OnlyApproved {
                 );
             }
         } else {
+            require(msg.value == 0, InvalidNativeValueDepositOnERC20Swap());
             // Support rebasing tokens by allowing the user to trade the entire balance
             if (tokenInfo.inputAmount == 0) {
                 tokenInfo.inputAmount = IERC20(tokenInfo.inputToken).balanceOf(msg.sender);
