@@ -59,6 +59,8 @@ interface IOBRouter {
     error NullBeneficiary();
     /// @dev throws when paramters for transferRouterFunds are invalid
     error InvalidRouterFundsTransfer();
+    /// @dev throws when native value is deposited on an ERC20 swap
+    error InvalidNativeValueDepositOnERC20Swap();
 
     /// @notice Externally facing interface for swapping two tokens
     /// @param tokenInfo All information about the tokens being swapped
