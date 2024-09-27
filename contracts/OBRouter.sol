@@ -48,7 +48,7 @@ contract OBRouter is Ownable, Pausable, IOBRouter, OnlyApproved {
     }
 
     /// @dev Unpause swap restricted to the owner
-    function unpaused() external onlyOwner {
+    function unpause() external onlyOwner {
         _unpause();
     }
 
