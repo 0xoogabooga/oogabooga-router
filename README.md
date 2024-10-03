@@ -73,9 +73,9 @@ Or use whichever package manager of preference on Linux
 ## Deployed Contracts
 
 ### 80084-bArtio Berachain Testnet
-| Contract     | Address                                    | Owner:Deployer                                      |
-| ------------ | ------------------------------------------ | --------------------------------------------------- |
-| OBRouter.sol | 0xA954f73434D48df52040eC85b30209C53b560B6B | @WuBruno:0x4b741204257ED68A7E0a8542eC1eA1Ac1Db829d7 |
+| Contract     | Address                                    | Owner:Deployer                             |
+| ------------ | ------------------------------------------ | ------------------------------------------ |
+| OBRouter.sol | 0xF6eDCa3C79b4A3DFA82418e278a81604083b999D | 0x4b741204257ED68A7E0a8542eC1eA1Ac1Db829d7 |
 
 ## Troubleshooting
 
