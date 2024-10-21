@@ -2,9 +2,12 @@
 src = "contracts"
 out = "out"
 libs = ["lib"]
-evm_version = "cancun"
+evm_version = 'paris'
 solc = "0.8.27"
 fs_permissions = [{ access = "read", path = "./out" }]
+
+[etherscan]
+bartio = { key = "verifyContract", url = "https://api.routescan.io/v2/network/testnet/evm/80084/etherscan", chain = "80084" }
 
 [rpc_endpoints]
 bartio = "https://bartio.rpc.berachain.com/"
