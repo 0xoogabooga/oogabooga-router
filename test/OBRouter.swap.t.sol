@@ -490,6 +490,7 @@ contract OBRouterSwapTest is Test, TestHelpers {
         );
     }
 
+    /// forge-config: default.allow_internal_expect_revert = true
     function test_RevertInsuficientBalance() external {
         IOBRouter.swapTokenInfo memory tokenInfo = IOBRouter.swapTokenInfo({
             inputToken: TokenHelper.NATIVE_TOKEN,
