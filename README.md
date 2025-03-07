@@ -80,7 +80,7 @@ Or use whichever package manager of preference on Linux
 ### 80094-Berachain Mainnet
 | Contract     | Address                                    | Deployer                             |
 | ------------ | ------------------------------------------ | ------------------------------------------ |
-| OBRouter.sol | 0xFd88aD4849BA0F729D6fF4bC27Ff948Ab1Ac3dE7 | 0xB009A55E7181fEe7f02BA80b85F0891945262351 |
+| OBRouter.sol | [0xFd88aD4849BA0F729D6fF4bC27Ff948Ab1Ac3dE7](https://berascan.com/address/0xfd88ad4849ba0f729d6ff4bc27ff948ab1ac3de7) | 0xB009A55E7181fEe7f02BA80b85F0891945262351 |
 
 ## Troubleshooting
 
