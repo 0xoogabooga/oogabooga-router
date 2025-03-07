@@ -25,7 +25,7 @@ A referral code can be used by passing into the swap function as an argument whe
 Through positive slippage, the router collects and holds revenue generated from swap fees. This revenue is held in the router in order to avoid extra gas fees during the user's swap for additional transfers. Therefore, all funds held in the router are considered revenue already owned by the `onlyApproved` role. To manage this revenue, the `owner` can set multiple addresses (including itself) to be `approved` to withdraw funds from the router. To collect the revenue, `approved` entities can call the `transferRouterFunds` function to withdraw any ERC20 or native token held in the router to be transferred to a specified destination. It also automatically wraps native tokens upon withdrawal. Finally it includes the ability to withdrawal all by providing amount of 0.
 
 The referral fee system is currently permissioned and handled by the `owner` of the router.
- 
+
 Pausing capabilities (`pause` and `unpause`) have been included and used during exigent circumstances.
 
 ## Setup
@@ -36,7 +36,7 @@ Follow the [instructions](https://book.getfoundry.sh/getting-started/installatio
 
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
-``` 
+```
 
 The project relies on v5.0.2 of OpenZeppelin's contract dependencies. It should be immediately be available upon cloning as it is a git submodule.
 
@@ -76,6 +76,11 @@ Or use whichever package manager of preference on Linux
 | Contract     | Address                                    | Owner:Deployer                             |
 | ------------ | ------------------------------------------ | ------------------------------------------ |
 | OBRouter.sol | 0xF6eDCa3C79b4A3DFA82418e278a81604083b999D | 0x4b741204257ED68A7E0a8542eC1eA1Ac1Db829d7 |
+
+### 80094-Berachain Mainnet
+| Contract     | Address                                    | Deployer                             |
+| ------------ | ------------------------------------------ | ------------------------------------------ |
+| OBRouter.sol | [0xFd88aD4849BA0F729D6fF4bC27Ff948Ab1Ac3dE7](https://berascan.com/address/0xfd88ad4849ba0f729d6ff4bc27ff948ab1ac3de7) | 0xB009A55E7181fEe7f02BA80b85F0891945262351 |
 
 ## Troubleshooting
 
