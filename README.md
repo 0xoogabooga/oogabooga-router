@@ -82,6 +82,11 @@ Or use whichever package manager of preference on Linux
 | ------------ | ------------------------------------------ | ------------------------------------------ |
 | OBRouter.sol | [0xFd88aD4849BA0F729D6fF4bC27Ff948Ab1Ac3dE7](https://berascan.com/address/0xfd88ad4849ba0f729d6ff4bc27ff948ab1ac3de7) | 0xB009A55E7181fEe7f02BA80b85F0891945262351 |
 
+### 80069-Berachain Bepolia Testnet
+| Contract     | Address                                    | Deployer                             |
+| ------------ | ------------------------------------------ | ------------------------------------------ |
+| OBRouter.sol | [0xADEC0cE4efdC385A44349bD0e55D4b404d5367B4](https://bepolia.beratrail.io/address/0xADEC0cE4efdC385A44349bD0e55D4b404d5367B4) | 0x4b741204257ED68A7E0a8542eC1eA1Ac1Db829d7 |
+
 ## Troubleshooting
 
 If certain commands, make sure you are running the latest version of foundry by running:
