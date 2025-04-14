@@ -11,5 +11,6 @@ bartio = { key = "verifyContract", url = "https://api.routescan.io/v2/network/te
 
 [rpc_endpoints]
 bartio = "https://bartio.rpc.berachain.com/"
+bepolia = "https://bepolia.rpc.berachain.com/"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
